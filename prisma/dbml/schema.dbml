@@ -1,0 +1,103 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  username String [not null]
+  phone String [unique]
+  email String [unique]
+  profile String
+  password String [not null]
+  created_at DateTime [default: `now()`, not null]
+  refresh_token String
+  member ChatMember [not null]
+  message Message [not null]
+  media Media [not null]
+  contact Contact [not null]
+  contactOf Contact [not null]
+}
+
+Table Contact {
+  id String [pk]
+  contactId String [not null]
+  contactOfId String [not null]
+  contact User [not null]
+  contactOf User [not null]
+
+  indexes {
+    (contactId, contactOfId) [unique]
+  }
+}
+
+Table Chat {
+  id String [pk]
+  type ChatType [not null, default: 'private']
+  created_at DateTime [default: `now()`, not null]
+  title String
+  profile String
+  member ChatMember [not null]
+  message Message [not null]
+}
+
+Table ChatMember {
+  id String [pk]
+  role Role [not null, default: 'member']
+  joined_at DateTime [default: `now()`, not null]
+  userId String [not null]
+  chatId String [not null]
+  user User [not null]
+  chat Chat [not null]
+
+  indexes {
+    (userId, chatId) [unique]
+  }
+}
+
+Table Message {
+  id String [pk]
+  chatId String [not null]
+  senderId String [not null]
+  message String
+  created DateTime [default: `now()`, not null]
+  chat Chat [not null]
+  user User [not null]
+  media Media [not null]
+}
+
+Table Media {
+  id String [pk]
+  url String [not null]
+  messageId String [not null]
+  message Message [not null]
+  senderId String [not null]
+  sender User [not null]
+  created_at DateTime [default: `now()`, not null]
+}
+
+Enum ChatType {
+  private
+  group
+}
+
+Enum Role {
+  owner
+  admin
+  member
+}
+
+Ref: Contact.contactId > User.id [delete: Cascade]
+
+Ref: Contact.contactOfId > User.id [delete: Cascade]
+
+Ref: ChatMember.userId > User.id [delete: Cascade]
+
+Ref: ChatMember.chatId > Chat.id [delete: Cascade]
+
+Ref: Message.chatId > Chat.id [delete: Cascade]
+
+Ref: Message.senderId > User.id [delete: Cascade]
+
+Ref: Media.messageId > Message.id [delete: Cascade]
+
+Ref: Media.senderId > User.id [delete: Cascade]

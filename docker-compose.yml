@@ -1,0 +1,29 @@
+services:
+  chatapp:
+    image: postgres:18-alpine
+    container_name: chat_app
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_DB: chatapp
+      POSTGRES_PASSWORD: hello123
+      POSTGRES_USER: chatapp
+    volumes:
+      - chatapp:/var/lib/postgresql/data
+  chatapp_test:
+    image: postgres:18-alpine
+    container_name: chat_app_test
+    restart: always
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_DB: chatapp_test
+      POSTGRES_PASSWORD: hello123
+      POSTGRES_USER: chatapp
+    volumes:
+      - chatapp_test:/var/lib/postgresql/data
+
+volumes:
+  chatapp:
+  chatapp_test:

@@ -52,4 +52,4 @@ jobs:
           app-name: 'nestjswebbackend'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ECA575467E1A4F96B6B026892E881FA1 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8E5D44DE20344BC086EE37E010C35C9E }}
